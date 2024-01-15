@@ -1,0 +1,57 @@
+name: sing-box
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 */1 * * *"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get sing-box
+        shell: pwsh
+        run: |
+          $json = Invoke-RestMethod 'https://api.github.com/repos/SagerNet/sing-box/releases/latest'
+          $latestVerison = $json.name
+          $tag = $json.tag_name
+          $url = "https://github.com/SagerNet/sing-box/releases/download/$tag/sing-box-$latestVerison-linux-amd64v3.tar.gz"
+          Invoke-WebRequest -Uri $url -OutFile 'sing-box.tar.gz'
+          tar -xzf sing-box.tar.gz
+          Move-Item -Path "sing-box-$latestVerison-linux-amd64v3\sing-box" -Destination "sing-box\sing-box" -Force
+          Remove-Item "sing-box-$latestVerison-linux-amd64v3" -Recurse -Force
+          Remove-Item sing-box.tar.gz
+
+      - name: Generate domains.china
+        shell: pwsh
+        working-directory: ./sing-box
+        run: |
+          ./domains.china.ps1
+          ./sing-box rule-set compile domains.china.json
+
+      - name: Generate chnroutes2
+        shell: pwsh
+        working-directory: ./sing-box
+        run: |
+          ./chnroutes2.ps1
+          ./sing-box rule-set compile chnroutes2.json
+
+      - name: Publish
+        working-directory: ./sing-box
+        run: |
+          mkdir publish
+          mv *.srs publish/
+          cd publish/
+          git init
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-action@users.noreply.github.com"
+          git checkout -b sing-box
+          git add .
+          git commit -m "Update sing-box rules"
+          git remote add origin "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+          git push -f origin sing-box
