@@ -29,7 +29,6 @@ function AddDomainRules {
 			$domain = $line.Substring($startIndex, $endIndex - $startIndex)
 			
 			$domainRules.domain += $domain
-			$domainRules.domain_suffix += ".$domain"
 		}
 	}
 }
