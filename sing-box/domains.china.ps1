@@ -4,7 +4,6 @@ $singBoxRules = @{
 }
 
 $domainRules = @{
-	domain        = @()
 	domain_suffix = @()
 }
 
@@ -27,8 +26,8 @@ function AddDomainRules {
 		$endIndex = $line.IndexOf('/', $startIndex)
 		if ($startIndex -gt 0 -and $endIndex -gt $startIndex) {
 			$domain = $line.Substring($startIndex, $endIndex - $startIndex)
-			
-			$domainRules.domain += $domain
+
+			$domainRules.domain_suffix += $domain
 		}
 	}
 }
