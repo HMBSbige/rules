@@ -1,8 +1,10 @@
 $url = 'https://raw.githubusercontent.com/misakaio/chnroutes2/master/chnroutes.txt'
 $content = Invoke-WebRequest -Uri $url | Select-Object -ExpandProperty Content
+$url6 = 'https://raw.githubusercontent.com/gaoyifan/china-operator-ip/ip-lists/china6.txt'
+$content6 = Invoke-WebRequest -Uri $url6 | Select-Object -ExpandProperty Content
 
 $singBoxRules = @{
-	version = 1
+	version = 2
 	rules   = @()
 }
 
@@ -13,6 +15,7 @@ $ipRule = @{
 $singBoxRules.rules += $ipRule
 
 $lines = $content -split "`n"
+$lines += $content6 -split "`n"
 foreach ($line in $lines) {
 	if ($line.StartsWith('#')) {
 		continue
