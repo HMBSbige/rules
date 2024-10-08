@@ -20,8 +20,8 @@ jobs:
           $url = "https://github.com/SagerNet/sing-box/releases/download/$tag/sing-box-$latestVerison-linux-amd64.tar.gz"
           Invoke-WebRequest -Uri $url -OutFile 'sing-box.tar.gz'
           tar -xzf sing-box.tar.gz
-          Move-Item -Path "sing-box-$latestVerison-linux-amd64v3\sing-box" -Destination "sing-box\sing-box" -Force
-          Remove-Item "sing-box-$latestVerison-linux-amd64v3" -Recurse -Force
+          Move-Item -Path "sing-box-$latestVerison-linux-amd64\sing-box" -Destination "sing-box\sing-box" -Force
+          Remove-Item "sing-box-$latestVerison-linux-amd64" -Recurse -Force
           Remove-Item sing-box.tar.gz
 
       - name: Generate domains.china
