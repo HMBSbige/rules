@@ -17,7 +17,7 @@ jobs:
           $json = Invoke-RestMethod 'https://api.github.com/repos/SagerNet/sing-box/releases/latest'
           $latestVerison = $json.name
           $tag = $json.tag_name
-          $url = "https://github.com/SagerNet/sing-box/releases/download/$tag/sing-box-$latestVerison-linux-amd64v3.tar.gz"
+          $url = "https://github.com/SagerNet/sing-box/releases/download/$tag/sing-box-$latestVerison-linux-amd64.tar.gz"
           Invoke-WebRequest -Uri $url -OutFile 'sing-box.tar.gz'
           tar -xzf sing-box.tar.gz
           Move-Item -Path "sing-box-$latestVerison-linux-amd64v3\sing-box" -Destination "sing-box\sing-box" -Force
