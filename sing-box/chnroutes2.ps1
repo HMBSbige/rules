@@ -4,7 +4,7 @@ $url6 = 'https://raw.githubusercontent.com/gaoyifan/china-operator-ip/ip-lists/c
 $content6 = Invoke-WebRequest -Uri $url6 | Select-Object -ExpandProperty Content
 
 $singBoxRules = @{
-	version = 1
+	version = 2
 	rules   = @()
 }
 
