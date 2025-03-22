@@ -38,6 +38,13 @@ jobs:
           ./chnroutes2.ps1
           ./sing-box rule-set compile chnroutes2.json
 
+      - name: Generate as32590
+        shell: pwsh
+        working-directory: ./sing-box
+        run: |
+          ./as32590.ps1
+          ./sing-box rule-set compile as32590.json
+
       - name: Publish
         working-directory: ./sing-box
         run: |
