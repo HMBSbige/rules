@@ -5,6 +5,7 @@ $singBoxRules = @{
 
 $domainRules = @{
 	domain_suffix = @()
+	domain_regex  = @()
 }
 
 $singBoxRules.rules += $domainRules
@@ -35,6 +36,9 @@ function AddDomainRules {
 AddDomainRules('https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/accelerated-domains.china.conf')
 AddDomainRules('https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/google.china.conf')
 AddDomainRules('https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/apple.china.conf')
+
+# https://github.com/v2fly/domain-list-community/pull/2436
+$domainRules.domain_regex += '^r+[0-9]+(---|\.)sn-(2x3|ni5|j5o)\w{5}\.xn--ngstr-lra8j\.com$'
 
 $singBoxRulesJson = $singBoxRules | ConvertTo-Json -Depth 3
 $singBoxRulesJson | Set-Content -Path "domains.china.json"
