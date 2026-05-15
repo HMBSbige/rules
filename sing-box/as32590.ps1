@@ -1,8 +1,8 @@
-$url = 'https://raw.githubusercontent.com/ipverse/asn-ip/refs/heads/master/as/32590/aggregated.json'
+$url = 'https://raw.githubusercontent.com/ipverse/as-ip-blocks/master/as/32590/aggregated.json'
 $json = Invoke-WebRequest -Uri $url | ConvertFrom-Json
 
 $singBoxRules = @{
-	version = 3
+	version = 4
 	rules   = @()
 }
 
@@ -12,13 +12,13 @@ $ipRule = @{
 
 $singBoxRules.rules += $ipRule
 
-$ipv4 = $json.subnets.ipv4
+$ipv4 = $json.prefixes.ipv4
 
 foreach ($ip in $ipv4) {
 	$ipRule.ip_cidr += $ip
 }
 
-$ipv6 = $json.subnets.ipv6
+$ipv6 = $json.prefixes.ipv6
 
 foreach ($ip in $ipv6) {
 	$ipRule.ip_cidr += $ip
